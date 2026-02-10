@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>少羽牛逼 原神牛逼</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            overflow: hidden; 
+            font-family: "SimSun", "宋体", serif; 
+            cursor: crosshair; 
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            filter: contrast(150%) hue-rotate(90deg); 
+        }
+
+        .header-container {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            width: 100%;
+            text-align: center;
+            pointer-events: none; 
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin: 0;
+            
+            background: linear-gradient(
+                45deg, 
+                #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000
+            );
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            color: transparent;
+            
+            text-shadow: 
+                3px 3px 0px #ffffff, 
+                -3px -3px 0px #000000,
+                5px 5px 10px rgba(255, 0, 0, 0.8);
+
+            animation: 
+                rainbow-move 3s linear infinite,
+                seizure-warning 0.1s steps(2) infinite,
+                float-distort 2s ease-in-out infinite alternate;
+        }
+
+        .marquee-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: blue;
+            color: yellow;
+            font-size: 20px;
+            z-index: 100;
+            padding: 5px 0;
+            border-top: 2px solid white;
+        }
+
+        /* 动画定义 */
+        @keyframes rainbow-move {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes seizure-warning {
+            0% { opacity: 1; filter: invert(0%); }
+            50% { opacity: 0.9; filter: invert(10%); }
+            100% { opacity: 1; filter: invert(0%); }
+        }
+
+        @keyframes float-distort {
+            0% { transform: scale(1) skewX(0deg); }
+            25% { transform: scale(1.1) skewX(-10deg); }
+            50% { transform: scale(0.9) skewX(10deg) rotate(2deg); }
+            75% { transform: scale(1.05) skewX(-5deg) rotate(-2deg); }
+            100% { transform: scale(1) skewX(0deg); }
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            z-index: 998;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>原神牛逼<br>哟齁齁齁齁齁<br>盘点那些堪比教科书级别的牛逼克拉斯网页名场面</h1>
+    </div>
+
+    <canvas id="canvas"></canvas>
+    
+    <div class="scanlines"></div>
+
+    <div class="marquee-footer">
+        <marquee scrollamount="15" bgcolor="blue">
+            我直接那个急急那如律令，妈咪贝贝哄，沁中第一，我们第一，2829，锐不可当，齐心协力，奋战期末好吧，美人鱼商皓涵也是直接那个牛逼后面带个克拉斯好吧
+        </marquee>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // 设置画布全屏
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 核心文本库
+        const textStr = "急急那如律令妈咪贝贝哄辛巴巴把谁逼了盘点那些堪比教科书级别的神级域名名场面";
+        // 将字符串打散成数组，方便抽取
+        const characters = textStr.split("");
+
+        const fontSize = 18;
+        const columns = canvas.width / fontSize; // 计算列数
+
+        // 每列的y轴坐标数组，初始化为1
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function draw() {
+            // 设置背景半透明黑色，形成拖尾效果
+            // 使用略带红色的黑色，增加不安感
+            ctx.fillStyle = 'rgba(10, 0, 5, 0.05)'; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 设置字体样式
+            ctx.font = fontSize + 'px "SimSun"'; // 宋体
+
+            // 循环每一列
+            for (let i = 0; i < drops.length; i++) {
+                // 随机取字
+                const text = characters[Math.floor(Math.random() * characters.length)];
+
+                // 颜色设定：不只是绿色，混入高亮红和土味黄
+                const randomColor = Math.random();
+                if (randomColor > 0.95) {
+                    ctx.fillStyle = '#ff0000'; // 刺眼红
+                } else if (randomColor > 0.90) {
+                    ctx.fillStyle = '#ffff00'; // 土黄
+                } else {
+                    ctx.fillStyle = '#0F0'; // 黑客绿
+                }
+
+                // 绘制文字
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // 只有当超过屏幕高度且随机数大于0.975时才重置，让雨下得参差不齐
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                // y坐标递增
+                drops[i]++;
+            }
+        }
+
+        // 极速循环，33ms一帧
+        setInterval(draw, 33);
+
+        // 窗口大小改变时重置画布
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // 重新计算列数
+            const newColumns = canvas.width / fontSize;
+            // 扩展drops数组
+            while(drops.length < newColumns) {
+                drops.push(1);
+            }
+        });
+    </script>
+</body>
+</html>
